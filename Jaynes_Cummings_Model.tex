@@ -1,0 +1,451 @@
+\documentclass[spanish]{article}
+\usepackage{amsmath,amsthm,verbatim,amssymb,amsfonts,amscd, graphicx,url}
+\usepackage{graphics}
+\usepackage[utf8]{inputenc}
+\usepackage{float}
+\usepackage{tabularx, multicol, caption}
+\usepackage{flafter}
+\usepackage{listings}
+\usepackage{amssymb}
+\usepackage{subfig}
+\usepackage[utf8]{inputenc}
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+\usepackage{graphicx}
+\usepackage{graphicx}
+
+
+\newcommand{\grad}{$^{\circ}$}
+\newcommand{\grade}{^{\circ}}
+\newcommand{\angstrom}{\textup{\AA}}
+
+
+
+
+\usepackage{amsmath}
+\begin{document}
+\title {\textbf{Jaynes-Cummings Model}}
+\author {\textbf{Nicolás Díaz}}
+\date{\today}
+
+\maketitle
+
+
+Veremos la versión electrodinámica de modelo de Rabi. Consideremos un átomos con dos niveles, $|e\rangle$ y $|g\rangle$, excitado y base, respectivamente; que interactúa con un \textit{single-mode cavity field} de la forma
+
+\begin{equation}
+\hat{E} = \hat{e}\sqrt{\frac{\hbar \omega}{\epsilon_0 V}}(a+a^\dagger)sin(kz)
+\end{equation}
+donde $\hat{e}$ es una polarización en una dirección arbitraria. Tomamos el Hamiltoniano de Interacción de la siguiente forma: 
+\begin{equation}
+\hat{H}_I = \vec{d}\cdot\vec{\hat{E}} = dg(a+a^\dagger)
+\end{equation}
+con $$ g = -\sqrt{\frac{\hbar \omega}{\epsilon_0 V}}(a+a^\dagger)sin(kz)$$
+Introducimos los opeadores atómicos de transición: 
+
+\begin{itemize}
+\item $\sigma_+ = |e\rangle \langle g|$  
+\item $\sigma_- = |g\rangle \langle e|$
+\item $\sigma_3 = |e\rangle \langle e| - |g\rangle \langle g|$
+\item $[\sigma_+,\sigma_-] = \sigma_3$
+\end{itemize}
+
+Por consideraciones de paridad tenemos que los elementos fuera de la diagonal son distintos de cero, es decir, $\langle e|\hat{d}|e\rangle = 0 = \langle g|\hat{d}|g\rangle$ con lo que se obtiene:
+
+\begin{equation}
+\hat{d} = d|g\rangle\langle e| + d^* |e\rangle\langle g| = d(\sigma_+ + \sigma_-) \quad con \quad spg. \quad d \in \mathbb{R}
+\end{equation}
+
+Así, escribimos el Hamiltoniano de Interacción:
+
+\begin{equation}
+\hat{H}_I=\hbar\lambda(\sigma_+ + \sigma_-)(a+a^\dagger) \quad con \quad \lambda = \frac{dg}{\hbar}
+\label{H:Int}
+\end{equation}
+
+Si tomamos el nivel de energía entre los estados base y excitado como nulo entonces Hamiltoniano atómico libre es 
+
+\begin{equation}
+\hat{H}_A = \frac{1}{2}(E_g-E_e)\sigma_3 = \frac{1}{2}\hbar \omega_0\sigma_3
+\label{H:atom}
+\end{equation}
+
+El Hamiltoniano de campo libre será, después de anular el término de cero energía,
+
+\begin{equation}
+\hat{H}_F  = \hbar \omega a^\dagger a
+\label{H:campo}
+\end{equation} 
+
+Uniendo las ecuaciones \ref{H:Int} \ref{H:atom} y \ref{H:campo} tendremos el Hamiltoniano total:
+
+\begin{equation}
+\hat{H} = \sum_{i=1}^3 \hat{H}_i = \frac{1}{2}\hbar \omega_0\sigma_3 + \hbar \omega a^\dagger a + \hbar\lambda(\sigma_+ + \sigma_-)(a+a^\dagger)
+\end{equation}
+
+Sin embargo, en el caso de campo libre, los operadores de creación y aniquilación evolucionan en el tiempo de la siguiente forma
+
+\begin{equation}
+a(t) = a(0)e^{-i\omega t} \quad y \quad a(t)^\dagger = a(0)^\dagger e^{i\omega t}
+\end{equation}
+
+Análogamente se tiene que, para el caso de átomo libre, obtenemos
+
+\begin{equation}
+\sigma_{\pm}(t) = \sigma_{\pm}(0)e^{\pm i\omega_0 t} 
+\end{equation}
+
+Con lo anterior obtenemos los productos
+
+\begin{enumerate}
+\item $\sigma_+ a \sim e^{i(w_0-\omega)t}$
+\item $\sigma_- a^\dagger \sim e^{-i(w_0-\omega)t}$
+\item $\sigma_+ a^\dagger \sim e^{i(w_0+\omega)t}$
+\item $\sigma_- a \sim e^{-i(w_0+\omega)t}$
+
+\end{enumerate}
+
+Cuando se tiene el caso de resonancia, es decir, cuando las frecuencias son similares ($\omega \sim \omega_0$), entonces el tercer y cuarto término varían mucho más rápido que los primeros dos. La aproximación RWA nos permite despreciar estos valores al describir la dinámica del sistema. Así, el model JC es únicamente válido tomando dicha aproximación, la cual garantiza una descripción efectiva de la interacción coherente entre un sistema de dos niveles y un \textit{field mode}. 
+
+\begin{equation}
+\hat{H}_{JC} = \frac{1}{2}\hbar \omega_0\sigma_3 + \hbar \omega a^\dagger a + \hbar\lambda(\sigma_+a + \sigma_-a^\dagger)
+\end{equation}
+
+Ahora definimos los siguientes valores 
+
+\begin{itemize}
+\item $P_E=|e\rangle \langle e| + |g\rangle \langle g| = I$,ie. el número del electrón.
+\item $N = a^\dagger a + |e\rangle \langle e|$ que es el número de excitación.
+\end{itemize}
+
+Veremos que $[N,\hat{H}_{JC}] = 0$:
+
+\begin{equation}
+[N,\hat{H}_{JC}] \sim \hbar \lambda[a^\dagger a, (\sigma_+a + \sigma_-a^\dagger)]-\frac{\hbar \omega}{2}[|e\rangle\langle e |, |g\rangle \langle g|]+\hbar \lambda[|e\rangle\langle e |,(\sigma_+a + \sigma_-a^\dagger)]
+\end{equation}
+
+Notamos que el segundo término se anula por la ortoganilidad de los estados. El primer término podríamos hacerlo actuar sobre un estado de producto directo $|g\rangle \otimes |n\rangle$, obteniendo de esta forma 
+
+$$[a^\dagger a, (\sigma_+a + \sigma_-a^\dagger)] = -a|e\rangle \otimes |n\rangle $$
+
+Finalmente el tercer término, haciéndolo actuar sobre el mismo estado de producto directo, $|g\rangle \otimes |n\rangle$, tendrá la siguiente expresión: 
+
+$$[|e\rangle\langle e |,(\sigma_+a + \sigma_-a^\dagger)]= a|e\rangle \otimes |n\rangle $$
+
+Así, concluimos que $$[N,\hat{H}_{JC}] = 0$$.
+
+Tomamos ahora una separación del Hamiltoniano en la forma 
+
+$$ H_I=\hbar \omega N + \hbar(\frac{\omega_0}{2}-\omega)P_E $$
+$$ H_{II}=-\hbar\Delta + \hbar\lambda(\sigma_+a + \sigma_-a^\dagger)$$
+De tal forma que $[H_I,H_{II}]=0$. Notamos que $H_{JC} = H_I+H_{II}$. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Aquí falta decidir cómo se tomará el Ham libre.
+
+%%%%%%%%%
+
+
+\section{Uncoupled System}
+
+En este caso tenemos que $g = 0$, por lo que el Hamiltoniano de Interacción desaparece. Así, el Hamiltoniano completo es simplemente el libre. 
+
+\begin{equation}
+H = H_F = \hbar\bigg[\frac{\omega_0}{2}\sigma_3+w(a^\dagger a+\frac{1}{2})\bigg]
+\label{uncoupled}
+\end{equation}
+
+\paragraph{Resonante} Si en \ref{uncoupled} consideramos el caso de resonancia, ie. $\omega \sim \omega_0$ entonces obtenemos
+
+\begin{equation}
+H = \hbar \omega (\frac{\sigma_3}{2}+a^\dagger a + \frac{1}{2}) = \hbar \omega ( \sigma_+\sigma_- + a^\dagger a ) = \hbar \omega (a^\dagger a + |e\rangle \langle e |) = \hbar \omega N 
+\label{unc_res}
+\end{equation}
+
+ Es posible notar que la ecuación \ref{unc_res} es válida siempre y cuando se cumpla que $$ |e\rangle \langle e| + |g\rangle \langle g | = 1 $$ 
+ 
+\paragraph{Revisar lo siguiente:} Si definimos el Hamiltoniano libre sin el término $\hbar \omega \frac{1}{2}$ nos encontraríamos con una expresión similar a \ref{unc_res} con la condición $$ |e\rangle \langle e| + |g\rangle \langle g | = 0 $$ 
+
+\paragraph{No resonante} En este caso la ecuación \ref{uncoupled} la podemos expresar como 
+
+\begin{equation}
+H = \hbar \omega ( \frac{\sigma_3}{2}+a^\dagger a) +\hbar \frac{\delta \sigma_3}{2}
+\label{unc}
+\end{equation}
+
+donde $\delta = \omega_0 - \omega $. Tomemos ahora los siguientes eigenestados  $|e,n\rangle$ y $|g,n+1\rangle $ de tal forma que la ecuación de eigenvalores del Hamiltoniano es
+
+\begin{equation}
+H_F|e,n\rangle = E_{e,n}|e,n\rangle = \hbar \bigg[(n+1)\omega + \frac{\delta}{2}\bigg]|e,n\rangle
+\end{equation}
+\begin{equation}
+H_F|g,n+1\rangle = E_{g,n+1}|g,n+1\rangle = \hbar \bigg[(n+1)\omega - \frac{\delta}{2}\bigg]|g,n+1\rangle
+\end{equation}
+
+\section{Coupled System}
+
+El Hamiltoniano del sistema, compuesto por la parte libre y la de interacción, puede expresarse matricialmente de la manera siguiente: 
+
+\begin{equation}
+\begin{split}
+(H)_n =
+\begin{pmatrix}
+	\langle g, n+1 |H_F| g,n+1\rangle & \langle g, n+1|H_I|e,n\rangle\\
+	\langle e,n|H_I|g, n+1\rangle & \langle e,n|H_F|e,n\rangle\\
+\end{pmatrix} = \\
+\\
+= \hbar\begin{pmatrix}
+	(n+1)\omega + \frac{\delta}{2} & g\sqrt{n+1}\\
+	g\sqrt{n+1}& (n+1)\omega - \frac{\delta}{2}\\
+\end{pmatrix} 
+\end{split}
+\label{matrix}
+\end{equation}
+
+Utilizando $\Omega_n = g\sqrt{n+1}$ y $R_n = \sqrt{\Omega^2+\delta^2}$ obtenemos, a partir de la matriz \ref{matrix}, los \textsc{eigenvalores} siguientes:
+
+\begin{equation}
+E_{\pm,n} = \hbar \lambda_{\pm} = \hbar \bigg[\omega(n+1) \pm \frac{R_n}{2}\bigg]
+\label{eigenva}
+\end{equation}
+
+en donde $\Omega_n$ representa la \textit{frecuencia para n fotones de Rabi} y $R_n$ es ña \textit{frecuencia generalizada de Rabi}. Claramente, ambas son iguales en caso de resonancia. 
+
+Los eigenestados del sistema correspondiente a los eigenvalores \ref{eigenva} también se les llama \textsc{dressed states} ya que los estado atómicos ahora se encuentran "vestidos" por la interacción fotónica. Los \textsc{eigenvectores} son : 
+
+\begin{equation}
+\begin{split}
+\bigg[(H)_n - \lambda_{\pm}
+\begin{pmatrix}
+	1 & 0\\
+	0 & 1 \\
+\end{pmatrix}\bigg]
+\begin{pmatrix}
+	u \\
+	v \\
+\end{pmatrix}_{\pm}=
+\begin{pmatrix}
+	\delta \mp R_n & \Omega_n \\
+	\Omega_n & - \delta \mp R_n \\
+\end{pmatrix}
+\begin{pmatrix}
+	u \\
+	v \\
+\end{pmatrix}_{\pm}
+=\begin{pmatrix}
+	0 \\
+	0 \\
+\end{pmatrix}
+\end{split}
+\end{equation}
+
+\begin{equation}
+\begin{split}
+\begin{pmatrix}
+	u \\
+	v \\
+\end{pmatrix}_+ = \frac{1}{\sqrt{(R_n+\delta)^2-\Omega_n^2}}
+\begin{pmatrix}
+	\Omega_n \\
+	R_n - \delta \\
+\end{pmatrix}
+\\
+\begin{pmatrix}
+	u \\
+	v \\
+\end{pmatrix}_- = \frac{1}{\sqrt{(R_n+\delta)^2-\Omega_n^2}}
+\begin{pmatrix}
+	R_n - \delta \\
+	-\Omega_n \\
+\end{pmatrix}
+\end{split}
+\label{eigenvec}
+\end{equation}
+
+Expresando los eigenvectores \ref{eigenvec} a manera de rotaciones llegamos a 
+
+\begin{equation}
+\begin{split}
+\begin{pmatrix}
+	u \\
+	v \\
+\end{pmatrix}_+ = sin(\theta_n)
+\begin{pmatrix}
+	1 \\
+	0 \\
+\end{pmatrix} +
+cos(\theta_n)
+\begin{pmatrix}
+	0 \\
+	1 \\
+\end{pmatrix}
+\\
+\begin{pmatrix}
+	u \\
+	v \\
+\end{pmatrix}_- = cos(\theta_n)
+\begin{pmatrix}
+	1 \\
+	0 \\
+\end{pmatrix} -
+sin(\theta_n)
+\begin{pmatrix}
+	0 \\
+	1 \\
+\end{pmatrix}\end{split}
+\label{eigenvec}
+\end{equation}
+
+Así, los \textsc{dressed states} en función de los \textsc{naked states}, en la base $\big\{ |e,n\rangle , |g,n+1\rangle\big\}$ se expresan de la siguiente forma
+
+\begin{equation}
+\begin{split}
+|+n\rangle = sin(\theta_n)|e,n\rangle + cos(\theta_n)|g,n+1\rangle \\
+|-n\rangle = cos(\theta_n)|e,n\rangle - sin(\theta_n)|g,n+1\rangle
+\end{split}
+\end{equation}
+
+
+%%%%%%%%%
+
+% Aquí empieza Gerry y Knight
+
+%%%%%%%%%
+
+
+
+Si consideramos ahora el caso resonante, $\delta = 0$, donde el átomo está inicialmente en el estado excitado $|e\rangle$ y el campo en un estado $|n\rangle$, entonces  el estado inicial del sistema átomo-campo será $|e\rangle \otimes |n\rangle = |e\rangle |n\rangle = |e,n\rangle  $. Cuya energía será $E_i = \hbar \omega (n+\frac{1}{2})$ Dicho estado inicial está acomplado únicamente con el estado $|f\rangle = |g\rangle|n+1\rangle$ cuya energía es $E_f=-\frac{1}{2}\hbar\omega + (n+1)$, donde $E_i=E_f$. La evolución del estado en la representación de Schrödinger está dado por
+
+$$ |\psi(t) \rangle = e^{-\frac{iHt}{\hbar}}|\psi(0) \rangle $$
+
+
+
+Escribimos el vector estado en la forma 
+
+\begin{equation}
+|\psi(t)\rangle = C_i(t)|i\rangle + C_f(t)|f\rangle
+\end{equation}
+
+donde las condiciones iniciales imponen que se cumpla lo siguiente
+
+$$ C_i(0) = 1 \quad y \quad C_f(0) = 0 $$
+
+
+Para conocer la dinámica del sistema se utiliza la ecuación de Schrödinger, sin embargo, es posible notar que es el Hamiltoniano $H_{I}$ únicamente otorga una fase al sistema, por lo que centraremos atención sólo en $H_{II}$.
+
+$$ i\hbar\frac{d |\psi(t)\rangle}{dt} = \hat{H}_{II} |\psi(t)\rangle $$
+
+$$ i\hbar[\dot{C_i}|i\rangle+\dot{C_f}|f\rangle] = \hbar\lambda \bigg[C_i\sqrt{n+1}|f\rangle+C_f\sqrt{n+1}|i\rangle\bigg]$$
+
+$$\rightarrow \dot{C_i} = -i\lambda\sqrt{n+1}C_f$$
+$$\rightarrow\dot{C_f} = -i\lambda\sqrt{n+1}C_i$$
+Derivando nuevamente  $C_i$ y sustituyendo en ésta $\dot{C}_f$, obtenemos la ecuación diferencial ordinaria
+$$ \ddot{C_i}+ \lambda^2(n+1)C_i=0 $$
+Cuya solución inicia proponiendo $C(t)_i = e^{\eta t}$, dando como resulado $C(t)_i = Asin(\lambda t \sqrt{n+1})+Bcos(\lambda t \sqrt{n+1})$. Haciéndola coincidir con las condiciones iniciales obtenemos finalmente 
+
+\begin{equation}
+\Rightarrow C_i(t) = cos(\lambda t \sqrt{n+1})
+\end{equation}
+Susituyendo la expresión anterior en $\dot{C_f}$ e integrando respecto al tiempo, logramos llegar a 
+\begin{equation}
+\Rightarrow C_f(t) = -isin(\lambda t \sqrt{n+1})
+\end{equation}
+Finalmente 
+\begin{equation}
+|\psi(t)\rangle = cos(\lambda t \sqrt{n+1})|e\rangle|n\rangle -isin(\lambda t \sqrt{n+1})	|g\rangle|n+1\rangle
+\end{equation}
+
+Ahora, la inversión atómica estará dada en términos de las probabilidad de los estados $|i\rangle$ y $|f\rangle$:
+
+\begin{equation}
+W(t) = \langle\psi(t)|\sigma_3|\psi(t)\rangle = P_i - P_f = cos(2\lambda t \sqrt{n+1})
+\end{equation} con
+$$ P_i = cos^2(\lambda t \sqrt{n+1}) \quad y \quad P_f = sin^2(\lambda t \sqrt{n+1})$$
+
+$$ \Rightarrow W(t) = cos(\Omega_n t) $$
+
+Donde se puede identificar la frecuencia de Rabi $\Omega_n = 2 g\sqrt{n+1}$. Dicha inversión es es periódica como en su versión clásica, con la peculiaridad de que no siempre debe de estar presente un campo. En el caso cuántico existen oscilaciones de Rabi incluso en el caso cuando $n=0$. Este es el caso de \textit{vacuum-field Rabi oscillations}, que no tiene contraparte clásica. Éstas son el resultado de emisiones espontáneas de fotones. Esto se puede ver en átomos interactuando con campos con altas cavidades Q. 
+
+	Pero fuera de esto, el comportamiento de la dinámica atómica para un número definido de fotones es muy parecido al modelo semiclásico de Rabi, es decir, es periódico y regular. Nuestra intuición sugiere que si el campo está inicialmente en un estado coherente recuperaremos las oscilaciones semiclásicas de Rabi. Sin embargo, esto no se cumple. 
+	
+		Consideremos un estado puro como resultado más general de nuestra dinámica. Escribimos un estado inicial puro del sistema átomo-campo en la base desnuda \textsc{naked basis} $\{ |e,n\rangle , |g,n\rangle \}$ , que incluye el estado base $|g,0\rangle$ en la forma 
+		
+\begin{equation}
+|\psi(0)\rangle= \sum_{n_0}^\infty ( C_{e,n}(0) |e,n\rangle + C{g,n}|g,n\rangle)
+\end{equation}
+donde
+$$ C_{e,n} = C_e(0)C_n(0) \quad y \quad C_{g,n} = C_g(0)C_n(0) $$
+
+Aplicamos ahora el operador de evolución para obtener el estado evolucionado, es decir, $|\psi(t)\rangle = U_{JC}|\psi(0)\rangle$ donde 
+
+\begin{equation}
+\begin{split}
+U_{JC} = cos(gt\sqrt{n+1})|e\rangle \langle e|+cos(gt\sqrt{n+})|g\rangle \langle g|+  \\
+-i\frac{sin(gt\sqrt{n+1})}{\sqrt{n+1}}a|e\rangle \langle g| -i a^\dagger\frac{sin(gt\sqrt{n+1})}{\sqrt{n+1}}|g\rangle \langle e| = \\
+= u_{ee}(t)u_{gg}(t)+u_{eg}(t)+u_{ge}(t)
+\end{split}
+\label{evol}
+\end{equation}
+
+Además, es notorio que se tiene un estado de la forma 
+
+$$ |\psi(0)\rangle = |\psi(0)\rangle_{atom} \otimes |\psi(0)\rangle_{field} $$
+
+\begin{equation}
+\begin{split}
+|\psi(t) \rangle = \sum_{n=0}^\infty C_n(0)\bigg\{C_e(0)\bigg[cos(\frac{\Omega_n t}{2})|e,n\rangle -i sin(\frac{\Omega_n t}{2})|g,n+1\rangle\bigg]+ \\
++C_g(0)\bigg[cos(\frac{\Omega_{n-1}}{2}t)|g,n\rangle - isin(\frac{\Omega_{n-1}}{2}t)|e,n-1\rangle \bigg]\bigg\}
+\end{split}
+\label{estado}
+\end{equation}
+
+Si recuperamos el caso inicial, donde $C_e = 1 $ y $C_g = 0$ escribimos la solución en términos 
+
+$$ |\psi(t)\rangle = |\psi_g(t) \rangle |g\rangle + |\psi_e(t)\rangle |e\rangle $$
+
+donde las componentes del campo están dadas por $|\psi_g(t) \rangle$ y $|\psi_e(t) \rangle$.
+
+\begin{equation}
+|\psi_g(t) \rangle = -i \sum_{n=0}^\infty C_n sin(gt\sqrt{n+1})|n+1\rangle
+\end{equation}
+
+\begin{equation}
+|\psi_e(t) \rangle = \sum_{n=0}^\infty C_n cos(gt\sqrt{n+1})|n\rangle
+\end{equation}
+
+Así, la inversión atómica estará dada por 
+
+\begin{equation}
+W(t) = \sum_{n=0}^\infty |C_n|^2 cos (2gt\sqrt{n+1})
+\end{equation}
+
+Para el estado coherente, el caso más clásico de los estados cuánticos, se tiene que 
+
+\begin{equation}
+C_n = e^{-\frac{|\alpha|^2}{2}}\frac{\alpha^n}{\sqrt{n!}}
+\end{equation}
+y la inversión 
+\begin{equation}
+W(t) = e^{-\vec{n}} \sum_{n=0}^\infty \frac{\vec{n}^n}{n!}cos (2gt\sqrt{n+1})
+\end{equation} con $ \vec{n} = |\alpha|^2 $ el número promedio fotónico. 
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{colapse.png}
+\includegraphics[width=\textwidth]{colapse2.png}
+\caption{}
+\label{}
+\end{figure}
+
+
+
+
+
+
+
+
+
+
+
+\end{document}
+
